@@ -49,7 +49,7 @@ func (u *User) Prepare() {
 	u.UpdatedAt = time.Now()
 }
 
-func (u *User) Validate (action string) error {
+func (u *User) Validate(action string) error {
 	switch strings.ToLower(action){
 	case "update":
 		if u.Username == "" {
