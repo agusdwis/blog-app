@@ -62,7 +62,6 @@ func (p *Post) CreatePost(db *gorm.DB) (*Post, error){
 	}
 
 	return p, nil
-
 }
 
 func (p *Post) GetAllPosts(db *gorm.DB) (*[]Post, error){
@@ -87,7 +86,6 @@ func (p *Post) GetAllPosts(db *gorm.DB) (*[]Post, error){
 	}
 
 	return &posts, nil
-
 }
 
 func (p *Post) GetPostById(db *gorm.DB, pid uint64)(*Post, error){
