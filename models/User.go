@@ -71,9 +71,9 @@ func (u *User) Validate(action string) error {
 		return nil
 
 	case "login":
-		if u.Username == "" {
-			return errors.New("Required Username")
-		}
+		// if u.Username == "" {
+		// 	return errors.New("Required Username")
+		// }
 
 		if u.Password == "" {
 			return errors.New("Required Password")
