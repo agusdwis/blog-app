@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/agusdwis/blog-app/models"
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 )
 
 
@@ -33,7 +33,7 @@ var posts = []models.Post{
 }
 
 func Load(db *gorm.DB) {
-	err := db.Debug().Migrator().DropTable(&models.User{}, &models.Post{}).Error
+	err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}).Error
 	if err != nil {
 		log.Fatalf("Cannot drop table: %v", err)
 	}
@@ -43,16 +43,21 @@ func Load(db *gorm.DB) {
 		log.Fatalf("Cannot migrate table: %v", err)
 	}
 
+	err = db.Debug().Model(&models.Post{}).AddForeignKey("author_id", "users(id)", "cascade", "cascade").Error
+	if err != nil {
+		log.Fatalf("attaching foreign key error: %v", err)
+	}
+
 	for i := range users {
-		err1 := db.Debug().Model(&models.User{}).Create(&users[i]).Error
-		if err1 != nil {
+		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
+		if err != nil {
 			log.Fatalf("Cannot seed users table: %v", err)
 		}
 
 		posts[i].AuthorID = users[i].ID
 
-		err2 := db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
-		if err2 != nil {
+		err = db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
+		if err != nil {
 			log.Fatalf("Cannot seed posts table: %v", err)
 		}
 	}

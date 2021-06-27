@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/badoux/checkmail"
+	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 )
 
 type User struct {
